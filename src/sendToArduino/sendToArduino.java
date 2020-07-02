@@ -27,34 +27,6 @@ public class sendToArduino {
 		return window;
 	}
 	
-	public static void main(String[] args) {
-		JFrame window = setJFrame();
-		
-		
-		// create a drop-down box and connect button, then place them at the top of the window
-		JComboBox<String> portList = new JComboBox<String>();
-		JButton connectButton = new JButton("Connect");
-		JPanel topPanel = new JPanel();
-		topPanel.add(portList);
-		topPanel.add(connectButton);
-		window.add(topPanel, BorderLayout.NORTH);
-		
-		// populate the drop-down box
-		SerialPort[] portNames = SerialPort.getCommPorts();
-		for(int i = 0; i < portNames.length; i++)
-			portList.addItem(portNames[i].getSystemPortName());
-		
-		// configure the connect button and use another thread to send data
-		connectButton.addActionListener(new ActionListener(){
-			@Override public void actionPerformed(ActionEvent arg0) {
-				extracted(portList, connectButton);
-			}
-		});
-		
-		// show the window
-		window.setVisible(true);
-	}
-
 	public static void extracted(JComboBox<String> portList, JButton connectButton) {
 		if(connectButton.getText().equals("Connect")) {
 			// attempt to connect to the serial port
@@ -107,6 +79,34 @@ public class sendToArduino {
 			}
 		};
 		thread.start();
+	}
+	
+	public static void main(String[] args) {
+		JFrame window = setJFrame();
+		
+		
+		// create a drop-down box and connect button, then place them at the top of the window
+		JComboBox<String> portList = new JComboBox<String>();
+		JButton connectButton = new JButton("Connect");
+		JPanel topPanel = new JPanel();
+		topPanel.add(portList);
+		topPanel.add(connectButton);
+		window.add(topPanel, BorderLayout.NORTH);
+		
+		// populate the drop-down box
+		SerialPort[] portNames = SerialPort.getCommPorts();
+		for(int i = 0; i < portNames.length; i++)
+			portList.addItem(portNames[i].getSystemPortName());
+		
+		// configure the connect button and use another thread to send data
+		connectButton.addActionListener(new ActionListener(){
+			@Override public void actionPerformed(ActionEvent arg0) {
+				extracted(portList, connectButton);
+			}
+		});
+		
+		// show the window
+		window.setVisible(true);
 	}
 
 }
